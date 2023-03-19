@@ -1,21 +1,19 @@
+mod cli;
+use cli::Cli;
+use cli::RodoCommands;
+use clap::{Parser};
 mod commands;
-use commands::RodoCommand;
-use commands::Cli;
-use std::env;
+use commands::catalog;
 
 fn main() {
-    let mut args = env::args();
-    let _ = args.next().expect("something went wrong");
+    let cli = Cli::parse();
 
-    let mut chosen_command = None;
-    
-    while let Some(arg) = args.next() {
-        match RodoCommand::from_string(arg) {
-	    RodoCommand::Catalog => chosen_command = Some(RodoCommand::Catalog)
+    // You can check for the existence of subcommands, and if found use their
+    // matches just as you would the top level cmd
+    match &cli.command {
+        RodoCommands::Catalog { filepath } => {
+	    let todos = catalog::catalog_path(filepath.as_str()).unwrap();
+	    println!("{:?}", todos)		
         }
     }
-    match chosen_command {
-	Some(c) =>  eprintln!("{:?}", c),
-	None => RodoCommand::full_usage()
-    }	
 }
