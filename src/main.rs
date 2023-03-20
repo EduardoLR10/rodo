@@ -4,16 +4,24 @@ use cli::RodoCommands;
 use clap::{Parser};
 mod commands;
 use commands::catalog;
+use commands::list;
+use std::env::current_dir;
+mod display;
+use display::display_todos;
 
 fn main() {
     let cli = Cli::parse();
-
-    // You can check for the existence of subcommands, and if found use their
-    // matches just as you would the top level cmd
+    let current_dir = current_dir().unwrap();
+    let current_dir_str = current_dir.into_os_string().into_string().unwrap();
     match &cli.command {
-        RodoCommands::Catalog { filepath } => {
-	    let todos = catalog::catalog_path(filepath.as_str()).unwrap();
-	    println!("{:?}", todos)		
+        RodoCommands::Catalog { opt_filepath } => {
+	    let filepath = opt_filepath.to_owned().unwrap_or(current_dir_str);
+	    let _todos = catalog::catalog_path(filepath.as_str()).unwrap();
+        },
+	RodoCommands::List { opt_filepath } => {
+	    let filepath = opt_filepath.to_owned().unwrap_or(current_dir_str);
+	    let todos = list::list_path(filepath.as_str()).unwrap();
+	    display_todos(todos)
         }
     }
 }

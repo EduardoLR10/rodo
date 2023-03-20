@@ -11,5 +11,8 @@ pub struct Cli {
 #[derive(Subcommand)]
 pub enum RodoCommands {
     /// Catalog all the TODOs in a given folder
-    Catalog { filepath: String },
+    Catalog { opt_filepath: Option<String> },
+    /// List all the TODOs in a given folder
+    List { opt_filepath: Option<String> },
+    
 }
