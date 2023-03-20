@@ -10,9 +10,9 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum RodoCommands {
-    /// Catalog all the TODOs in a given folder
+    /// Catalog all the TODOs in a given folder. The default value is the current directory.
     Catalog { opt_filepath: Option<String> },
-    /// List all the TODOs in a given folder
+    /// List all the TODOs in a given folder. The default value is the current directory.
     List { opt_filepath: Option<String> },
     
 }
