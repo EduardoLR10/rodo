@@ -25,3 +25,20 @@ fn main() {
         }
     }
 }
+
+#[test]
+fn test_list () {
+    let cli = Cli::parse_from(vec!["", "list", "."]);
+    assert_eq!(cli, Cli{ command: RodoCommands::List {opt_filepath: Some(String::from("."))}});
+
+    let cli = Cli::parse_from(vec!["", "list"]);
+    assert_eq!(cli, Cli{ command: RodoCommands::List {opt_filepath: None}});
+}
+
+#[test]
+fn test_catalog () {
+    let cli = Cli::parse_from(vec!["", "catalog", "."]);
+    assert_eq!(cli, Cli{ command: RodoCommands::Catalog {opt_filepath: Some(String::from("."))}});
+    let cli = Cli::parse_from(vec!["", "catalog"]);
+    assert_eq!(cli, Cli{ command: RodoCommands::Catalog {opt_filepath: None}});
+}
