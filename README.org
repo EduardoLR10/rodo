@@ -1,0 +1,16 @@
+* Rodo
+
+A TODO management application written in Rust. The main idea is that your source code has an embedded
+way to manage its own issues - you never have to open up the browser.
+
+** How to use Rodo
+
+#+begin_src shell
+  > nix build
+  > nix run
+#+end_src
+
+** Developers
+
+- EduardoLR10
+- edilmedeiros  
