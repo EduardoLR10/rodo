@@ -192,28 +192,3 @@ fn todo_different_tag() {
     let input = "FIXME: different tag";
     assert_eq!(parse_todo("TODO:", input).ok(), None);
 }
-
-// pub fn parse_todo1<'a>(todo_tag: &'a str, input: &'a str) -> IResult<&'a str, &'a str> {
-//     preceded(take_until(todo_tag), rest)(input)
-// }
-
-// #[test]
-// fn todo_clean1() {
-//     let input = "TODO: test todo";
-//     assert_eq!(parse_todo1("TODO:", input), Ok(("", "TODO: test todo")));
-// }
-
-// #[test]
-// fn todo_in_comment1() {
-//     let input = "// TODO: test todo";
-//     assert_eq!(parse_todo1("TODO:", input), Ok(("", "TODO: test todo")));
-// }
-
-// #[test]
-// fn todo_different_tag1() {
-//     let input = "FIXME: different tag";
-//     match parse_todo1("TODO:", input) {
-//         Ok(_) => assert!(false),
-//         Err(_) => assert!(true),
-//     }
-// }
