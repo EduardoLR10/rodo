@@ -1,19 +1,11 @@
 use nom::{
-    bytes::complete::{take_till, take_until, tag},
-    character::{is_newline, complete::{newline, not_line_ending}},
-    error::*,
-    sequence::preceded,
+    bytes::complete::{take_until, tag},
+    character::{complete::{newline, not_line_ending}},
     combinator::opt,
     multi::many0,
     *,
 };
 
-pub fn todo() -> impl Fn(&[u8]) -> IResult<&[u8], &[u8], Error<&[u8]>> {
-    move |i: &[u8]| {
-        let header = take_until("TODO:");
-        let content = take_till(is_newline);
-        preceded(header, content)(i)
-    }
 #[derive(Debug, PartialEq, Clone)]
 pub struct Todo {
     pub tag: String,
