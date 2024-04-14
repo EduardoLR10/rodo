@@ -43,6 +43,12 @@ fn parse_todos<'a>(file_content: &'a str) -> IResult<&'a str, Vec<Todo>> {
     Ok((input, todos))
 }
 
+pub fn parse_file(file_content: &str) -> Vec<Todo> {
+    match parse_todos(file_content) {
+        Ok((_, todos)) => todos,
+        Err(_) => vec![],
+    }
+}
 
 #[test]
 fn todos() {
