@@ -14,15 +14,14 @@ pub fn todo() -> impl Fn(&[u8]) -> IResult<&[u8], &[u8], Error<&[u8]>> {
         let content = take_till(is_newline);
         preceded(header, content)(i)
     }
+#[derive(Debug, PartialEq, Clone)]
+pub struct Todo {
+    pub tag: String,
+    pub text: String,
 }
 
-#[derive(Debug, PartialEq)]
-pub struct Todo<'a> {
-    tag: &'a str,
-    text: &'a str,
-}
 
-pub fn parse_todo<'a>(todo_tag: &'a str, input: &'a str) -> IResult<&'a str, Todo<'a>> {
+fn parse_todo<'a>(todo_tag: &'a str, input: &'a str) -> IResult<&'a str, Todo> {
     // remove everything prior to the tag
     let (input, _) = take_until(todo_tag)(input)?;
 
@@ -33,12 +32,12 @@ pub fn parse_todo<'a>(todo_tag: &'a str, input: &'a str) -> IResult<&'a str, Tod
     let (input, _) = opt(newline)(input)?;
 
     Ok((input, Todo {
-        tag: todo_tag,
-        text
+        tag: todo_tag.to_owned(),
+        text: text.to_owned(),
     }))
 }
 
-pub fn parse_todos<'a>(file_content: &'a str) -> IResult<&'a str, Vec<Todo<'a>>> {
+fn parse_todos<'a>(file_content: &'a str) -> IResult<&'a str, Vec<Todo>> {
     let line_parser = | file_content | parse_todo("TODO:", file_content);
     let (input, todos) = many0(line_parser)(file_content)?;
     Ok((input, todos))
@@ -56,10 +55,10 @@ fn todos() {
     assert_eq!(parse_todos(input),
                Ok(("",
                    vec![
-                       Todo{ tag: "TODO:",
-                             text: " todo1"},
-                       Todo{ tag: "TODO:",
-                             text: " todo2"},
+                       Todo{ tag: "TODO:".to_owned(),
+                             text: " todo1".to_owned()},
+                       Todo{ tag: "TODO:".to_owned(),
+                             text: " todo2".to_owned()},
                    ])
                )
     );
@@ -75,8 +74,8 @@ fn todos() {
     assert_eq!(parse_todos(input),
                Ok(("",
                    vec![
-                       Todo { tag: "TODO:",
-                              text: " todo1"}])
+                       Todo { tag: "TODO:".to_owned(),
+                              text: " todo1".to_owned()}])
                )
     );
 
@@ -89,8 +88,8 @@ fn todos() {
     assert_eq!(parse_todos(input),
                Ok(("line4\n",
                    vec![
-                       Todo { tag: "TODO:",
-                              text: " todo1"}])
+                       Todo { tag: "TODO:".to_owned(),
+                              text: " todo1".to_owned()}])
                )
     );
 
@@ -116,8 +115,8 @@ fn todo_clean() {
         parse_todo("TODO:", input),
         Ok(("",
             Todo {
-                tag: "TODO:",
-                text: " test todo"
+                tag: "TODO:".to_owned(),
+                text: " test todo".to_owned()
             })
         )
     );
@@ -130,8 +129,8 @@ fn todo_tag_only() {
         parse_todo("TODO:", input),
         Ok(("line1",
             Todo {
-                tag: "TODO:",
-                text: ""
+                tag: "TODO:".to_owned(),
+                text: "".to_owned()
             })
         )
     );
@@ -141,8 +140,8 @@ fn todo_tag_only() {
         parse_todo("TODO:", input),
         Ok(("",
             Todo {
-                tag: "TODO:",
-                text: ""
+                tag: "TODO:".to_owned(),
+                text: "".to_owned()
             })
         )
     );
@@ -152,8 +151,8 @@ fn todo_tag_only() {
         parse_todo("TODO:", input),
         Ok(("",
             Todo {
-                tag: "TODO:",
-                text: ""
+                tag: "TODO:".to_owned(),
+                text: "".to_owned()
             })
         )
     );
@@ -166,8 +165,8 @@ fn todo_clean_newline() {
         parse_todo("TODO:", input),
         Ok(("line1",
             Todo {
-                tag: "TODO:",
-                text: " test todo"
+                tag: "TODO:".to_owned(),
+                text: " test todo".to_owned()
             })
         )
     );
@@ -180,8 +179,8 @@ fn todo_in_comment() {
         parse_todo("TODO:", input),
         Ok(("",
             Todo {
-                tag: "TODO:",
-                text: " test todo"
+                tag: "TODO:".to_owned(),
+                text: " test todo".to_owned()
             })
         )
     );
