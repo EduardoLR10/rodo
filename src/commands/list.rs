@@ -35,5 +35,5 @@ pub fn list_path_todos(directory_path: &str) -> Vec<Todo> {
 
             todos.append(&mut file_todos)
         }
-    return todos
+    todos
 }

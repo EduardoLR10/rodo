@@ -1,6 +1,6 @@
 use nom::{
     bytes::complete::{take_until, tag},
-    character::{complete::{newline, not_line_ending}},
+    character::complete::{newline, not_line_ending},
     combinator::opt,
     multi::many0,
     *,
@@ -28,7 +28,7 @@ fn parse_todo<'a>(todo_tag: &'a str, input: &'a str) -> IResult<&'a str, Todo> {
     }))
 }
 
-fn parse_todos<'a>(file_content: &'a str) -> IResult<&'a str, Vec<Todo>> {
+fn parse_todos(file_content: &str) -> IResult<&str, Vec<Todo>> {
     let line_parser = | file_content | parse_todo("TODO:", file_content);
     let (input, todos) = many0(line_parser)(file_content)?;
     Ok((input, todos))
