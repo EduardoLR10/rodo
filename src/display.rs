@@ -1,16 +1,15 @@
 use colored::Colorize;
 
-fn display_todo(msg: &mut String) {
-    msg.replace_range(..5, "");
-    let body = msg.trim();
-    println!(
-        "{} {}",
-        "TODO:".bold().blue().underline(),
-	body)
+use crate::commands::parser::Todo;
+
+impl Todo {
+    pub fn display(todo: Todo) -> String {
+        format!("{} {}", todo.tag.bold().blue().underline(), todo.text)
+    }
 }
 
-pub fn display_todos(msgs: Vec<String>) {
-    for mut msg in msgs {
-	display_todo(&mut msg);
+pub fn display_todos(todos: Vec<Todo>) {
+    for todo in todos {
+        println!("{}", Todo::display(todo));
     }
 }
