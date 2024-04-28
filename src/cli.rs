@@ -14,5 +14,4 @@ pub enum RodoCommands {
     Catalog { opt_filepath: Option<String> },
     /// List all the TODOs in a given folder. The default value is the current directory.
     List { opt_filepath: Option<String> },
-    
 }
