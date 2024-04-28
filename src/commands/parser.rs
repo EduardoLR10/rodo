@@ -6,6 +6,9 @@ use nom::{
     *,
 };
 
+// TODO: change String to &str in the Todo type \
+// Making this will break the list_todos_path() function because of ownership of
+// the file contents.
 #[derive(Debug, PartialEq, Clone)]
 pub struct Todo {
     pub tag: String,
